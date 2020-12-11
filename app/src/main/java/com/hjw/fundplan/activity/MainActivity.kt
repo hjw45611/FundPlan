@@ -1,10 +1,9 @@
-package com.hjw. fundplan
+package com.hjw.fundplan.activity
 
 
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.os.Message
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -12,18 +11,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
+import com.hjw.fundplan.fragment.FundFragment
+import com.hjw.fundplan.fragment.MainFragment
+import com.hjw.fundplan.R
+import com.hjw.fundplan.inter.SwitchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SwitchFragment {
     companion object {
         const val HOMEFRAGMENT_TAG = "home"
         const val FUNF_TAG = "fund"
     }
+
     var toobar: Toolbar? = null
-    var back: Boolean=true
+    var back: Boolean = true
     private var mHomeFragment: MainFragment? = null
+    private var mFundFragment: FundFragment? = null
+
     //默认为0
     private var mIndex = 0
 
@@ -31,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             val fManager = supportFragmentManager
             mHomeFragment = fManager.findFragmentByTag(HOMEFRAGMENT_TAG) as? MainFragment
-//            mFundFragment = fManager.findFragmentByTag(FUNF_TAG) as? AppStoreMainFragment
+            mFundFragment = fManager.findFragmentByTag(FUNF_TAG) as? FundFragment
 
         }
 
@@ -57,38 +63,44 @@ class MainActivity : AppCompatActivity() {
                     transaction.show(it)
                 } ?: MainFragment.newInstance().let {
                     mHomeFragment = it
-                    transaction.add(R.id.id_content, it, HOMEFRAGMENT_TAG)
+                    transaction.add(
+                        R.id.id_content, it,
+                        HOMEFRAGMENT_TAG
+                    )
                 }
+                mHomeFragment?.bindCallBack(this)
                 //更新标题
-                toobar?.title ?: getString(R.string.home_page)
+                toobar?.setTitle(R.string.home_page)
 
             }
-//            R.id.fund_title//基金
-//            -> {
-//                mAppStoreFragment?.let {
-//                    transaction.show(it)
-//                } ?: AppStoreMainFragment.getInstance().let {
-//                    mAppStoreFragment = it
-//                    transaction.add(R.id.content_root, it, APPSTOREFRAGMENT_TAG)
-//                }
-//
-//                //更新标题
-//                home_txt_title.setText(R.string.app_store_title)
-//                isShowCenterTitle(true)
-//                backIvShowOrGone(false)
-//                isOnlyShowSign(true)
-//            }
+            R.id.fund_title//基金
+            -> {
+                mFundFragment?.let {
+                    transaction.show(it)
+                } ?: FundFragment.newInstance().let {
+                    mFundFragment = it
+                    transaction.add(
+                        R.id.id_content, it,
+                        FUNF_TAG
+                    )
+                }
+
+                //更新标题
+                toobar?.setTitle(R.string.fund)
+            }
             else -> toast("没有相应界面！")
         }
         mIndex = position
         transaction.commitAllowingStateLoss()
     }
+
     /**
      * 隐藏所有的Fragment
      * @param transaction transaction
      */
     private fun hideFragments(transaction: FragmentTransaction) {
         mHomeFragment?.let { transaction.hide(it) }
+        mFundFragment?.let { transaction.hide(it) }
     }
 
     private fun initView() {
@@ -143,12 +155,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         return if (back && keyCode == KeyEvent.KEYCODE_BACK) {
-            back=false
-            Handler().postDelayed(Runnable { back=true },2000)
+            back = false
+            Handler().postDelayed(Runnable { back = true }, 2000)
             Toast.makeText(this, "再按一次返回", Toast.LENGTH_SHORT).show()
             false
         } else {
             super.onKeyDown(keyCode, event)
+        }
+    }
+
+    override fun switchTag(tag: String) {
+        when (tag) {
+            FUNF_TAG -> switchFragment(
+                R.id.fund_title
+            )
         }
     }
 }
