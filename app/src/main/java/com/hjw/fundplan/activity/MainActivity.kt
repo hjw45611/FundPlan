@@ -14,12 +14,14 @@ import androidx.fragment.app.FragmentTransaction
 import com.hjw.fundplan.fragment.FundFragment
 import com.hjw.fundplan.fragment.MainFragment
 import com.hjw.fundplan.R
+import com.hjw.fundplan.base.BaseActivity
+import com.hjw.fundplan.contract.IMainPresenter
 import com.hjw.fundplan.inter.SwitchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
 
 
-class MainActivity : AppCompatActivity(), SwitchFragment {
+class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragment {
     companion object {
         const val HOMEFRAGMENT_TAG = "home"
         const val FUNF_TAG = "fund"
@@ -103,7 +105,7 @@ class MainActivity : AppCompatActivity(), SwitchFragment {
         mFundFragment?.let { transaction.hide(it) }
     }
 
-    private fun initView() {
+    override fun initView() {
         toobar = id_drawer_layout_toolbar as Toolbar
         setSupportActionBar(toobar)
 //        id_drawer_layout_toolbar.setNavigationIcon(R.mipmap.ic_drawer_home)
@@ -170,5 +172,9 @@ class MainActivity : AppCompatActivity(), SwitchFragment {
                 R.id.fund_title
             )
         }
+    }
+
+    override fun initPresenter() {
+
     }
 }
