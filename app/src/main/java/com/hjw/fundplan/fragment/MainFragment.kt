@@ -1,13 +1,23 @@
 package com.hjw.fundplan.fragment
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hjw.fundplan.R
 import com.hjw.fundplan.activity.MainActivity
-import com.hjw.fundplan.inter.SwitchFragment
+import com.hjw.fundplan.adapter.MainListAdapter
+import com.hjw.fundplan.base.BaseFragment
+import com.hjw.fundplan.bean.MainInfoBean
+import com.hjw.fundplan.contract.IMainShowPresenter
+import com.hjw.fundplan.contract.IMainShowView
+import com.hjw.fundplan.inter.SwitchFragmentListener
+import com.hjw.fundplan.presenter.MainShowPresenter
 import kotlinx.android.synthetic.main.fragment_main.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,21 +30,22 @@ private const val ARG_PARAM2 = "param2"
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MainFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-//    private var param1: String? = null
-//    private var param2: String? = null
-    var callBack: SwitchFragment? = null
+class MainFragment : BaseFragment<IMainShowPresenter>(), IMainShowView {
+    var callBack: SwitchFragmentListener? = null
+    var adapter: MainListAdapter? = null
+    var handle: Handler = object : Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            getMainInfo()
+
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
     }
 
-    fun bindCallBack(callBack: SwitchFragment) {
+    fun bindCallBack(callBack: SwitchFragmentListener) {
         this.callBack = callBack
     }
 
@@ -42,29 +53,24 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        rv_marketUpdate.layoutManager = LinearLayoutManager(context)
+        adapter = MainListAdapter()
+        rv_marketUpdate.adapter = adapter
         btn_toFund.setOnClickListener {
             callBack?.switchTag(MainActivity.FUNF_TAG)
         }
-
     }
 
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MainFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+        const val TAG = "MainFragment"
+
         @JvmStatic
         fun newInstance() =
             MainFragment().apply {
@@ -73,5 +79,44 @@ class MainFragment : Fragment() {
 //                    putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getMainInfo()
+    }
+
+    override fun initPresenter() {
+        mPresenter = MainShowPresenter()
+        mPresenter.attachView(this)
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        Log.d(TAG, "hidden=$hidden")
+        if (!hidden) {
+            mPresenter.getMainInfo()
+        } else {
+            handle.removeMessages(0)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        handle.removeMessages(0)
+    }
+
+    override fun setMainInfo(mainInfoBean: MainInfoBean?) {
+        mainInfoBean.let {
+            if (it?.data?.total!! > 0) {
+                it?.data?.diff?.let { adapter?.updateData(it) }
+            }
+        }
+    }
+
+    fun getMainInfo() {
+        mPresenter.getMainInfo()
+        handle.sendEmptyMessageDelayed(0, 2000)
+
     }
 }

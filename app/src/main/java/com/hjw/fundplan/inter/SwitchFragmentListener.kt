@@ -5,6 +5,6 @@ package com.hjw.fundplan.inter
  * Created at 2020/12/10.
  * @Describe
  */
-interface SwitchFragment {
-    fun switchTag(tag:String)
+interface SwitchFragmentListener {
+    fun switchTag(tag: String)
 }

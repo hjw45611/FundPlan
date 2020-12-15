@@ -1,33 +1,29 @@
 package com.hjw.fundplan.activity
 
 
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.view.*
+import android.view.KeyEvent
+import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
-import com.hjw.fundplan.fragment.FundFragment
-import com.hjw.fundplan.fragment.MainFragment
 import com.hjw.fundplan.R
 import com.hjw.fundplan.base.BaseActivity
 import com.hjw.fundplan.contract.IMainPresenter
-import com.hjw.fundplan.inter.SwitchFragment
+import com.hjw.fundplan.fragment.FundFragment
+import com.hjw.fundplan.fragment.MainFragment
+import com.hjw.fundplan.inter.SwitchFragmentListener
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
 
 
-class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragment {
+class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragmentListener {
     companion object {
         const val HOMEFRAGMENT_TAG = "home"
         const val FUNF_TAG = "fund"
     }
 
-    var toobar: Toolbar? = null
     var back: Boolean = true
     private var mHomeFragment: MainFragment? = null
     private var mFundFragment: FundFragment? = null
@@ -44,11 +40,6 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragment {
         }
 
         super.onCreate(savedInstanceState)
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        translucentStatusBar();
-        setContentView(R.layout.activity_main)
-        initView()
-        init()
     }
 
     private fun init() {
@@ -72,7 +63,7 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragment {
                 }
                 mHomeFragment?.bindCallBack(this)
                 //更新标题
-                toobar?.setTitle(R.string.home_page)
+                id_drawer_layout_toolbar?.setTitle(R.string.home_page)
 
             }
             R.id.fund_title//基金
@@ -88,7 +79,7 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragment {
                 }
 
                 //更新标题
-                toobar?.setTitle(R.string.fund)
+                id_drawer_layout_toolbar?.setTitle(R.string.fund)
             }
             else -> toast("没有相应界面！")
         }
@@ -105,20 +96,19 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragment {
         mFundFragment?.let { transaction.hide(it) }
     }
 
+    override fun setNavigation(): Boolean = false
     override fun initView() {
-        toobar = id_drawer_layout_toolbar as Toolbar
-        setSupportActionBar(toobar)
-//        id_drawer_layout_toolbar.setNavigationIcon(R.mipmap.ic_drawer_home)
         //DrawerLayout监听器
         val toggle = ActionBarDrawerToggle(
             this,
             id_drawer,
-            toobar,
+            id_drawer_layout_toolbar,
             R.string.app_name,
             R.string.app_name
         )
         id_drawer.addDrawerListener(toggle)
         toggle.syncState()
+        init()
     }
 
     private fun calculateToolbarHeight(): Int {
@@ -129,21 +119,6 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragment {
         return statusBarHeight + actionBarHeight
     }
 
-    /**
-     * 实现5.0以上状态栏透明(默认状态是半透明)
-     */
-    private fun translucentStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val decorView = window.decorView as ViewGroup
-            val option: Int =
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            decorView.systemUiVisibility = option
-            window.statusBarColor = ContextCompat.getColor(
-                applicationContext,
-                R.color.light_menu_header
-            )
-        }
-    }
 
     /**
      * 当使用setSupportActionBar()时,调用Toolbar.inflateMenu()时无效果,必须用此方法实现
@@ -157,6 +132,10 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragment {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         return if (back && keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mIndex != R.id.workbench_title) {
+                switchFragment(R.id.workbench_title)
+                return false
+            }
             back = false
             Handler().postDelayed(Runnable { back = true }, 2000)
             Toast.makeText(this, "再按一次返回", Toast.LENGTH_SHORT).show()
@@ -176,5 +155,9 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragment {
 
     override fun initPresenter() {
 
+    }
+
+    override fun getLayoutId(): Int {
+        return R.layout.activity_main
     }
 }

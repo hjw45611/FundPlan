@@ -1,5 +1,6 @@
 package com.hjw.fundplan.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hjw.fundplan.R
+import com.hjw.fundplan.activity.FundSearchActivity
 import kotlinx.android.synthetic.main.fragment_fund.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -44,7 +46,7 @@ class FundFragment : Fragment() {
 
         rv_fund.layoutManager = LinearLayoutManager(context)
         btn_add.setOnClickListener {
-
+            startActivity(Intent(context, FundSearchActivity::class.java))
         }
     }
 

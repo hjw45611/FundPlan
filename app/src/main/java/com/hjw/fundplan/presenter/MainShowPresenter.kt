@@ -2,9 +2,9 @@ package com.hjw.fundplan.presenter
 
 import android.util.Log
 import com.hjw.fundplan.base.BasePresenter
-import com.hjw.fundplan.bean.FundInfoBean
-import com.hjw.fundplan.contract.IFundSearchPresenter
-import com.hjw.fundplan.contract.IFundSearchView
+import com.hjw.fundplan.bean.MainInfoBean
+import com.hjw.fundplan.contract.IMainShowPresenter
+import com.hjw.fundplan.contract.IMainShowView
 import com.hjw.fundplan.net.api.ApiRepo
 import com.hjw.fundplan.net.api.IBaseCallback
 import com.hjw.fundplan.util.JsonUtils
@@ -15,15 +15,14 @@ import org.jetbrains.anko.toast
  * Created at 2020/12/11.
  * @Describe
  */
-class FundSearchPresenter : BasePresenter<IFundSearchView>(), IFundSearchPresenter {
-    val TAG = FundSearchPresenter::javaClass.name
-    override fun search(word: String) {
+class MainShowPresenter : BasePresenter<IMainShowView>(), IMainShowPresenter {
+    val TAG = MainShowPresenter::javaClass.name
+    override fun getMainInfo() {
 
-//查询数据库
-        ApiRepo().searchCode(word, object : IBaseCallback {
+        ApiRepo().getMainInfo(object : IBaseCallback {
             override fun onSuccess(message: String) {
                 Log.d(TAG, "onSearchSuccess=$message")
-                mView.setFundInfo(JsonUtils.fromJson(message, FundInfoBean::class.java))
+                mView.setMainInfo(JsonUtils.fromJson(message, MainInfoBean::class.java))
             }
 
             override fun onFailure() {
@@ -33,4 +32,5 @@ class FundSearchPresenter : BasePresenter<IFundSearchView>(), IFundSearchPresent
 
         })
     }
+
 }

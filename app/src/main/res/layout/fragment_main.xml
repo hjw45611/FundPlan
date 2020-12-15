@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".fragment.MainFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_marketUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -19,17 +23,19 @@
             android:lineSpacingMultiplier="1.2"
             android:text="暂无盈利\n快去设置吧"
             android:textSize="18sp" />
+
         <Button
             android:id="@+id/btn_toFund"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="@string/fund"/>
+            android:text="@string/fund" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="@string/plan_dateMoney"/>
+            android:text="@string/plan_dateMoney" />
 
     </LinearLayout>
 

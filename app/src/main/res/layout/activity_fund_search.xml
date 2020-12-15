@@ -6,4 +6,131 @@
     android:layout_height="match_parent"
     tools:context=".activity.FundSearchActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@id/id_drawer_layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_menu_header"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:minHeight="?android:actionBarSize"
+        android:paddingTop="@dimen/padding_top"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="@string/app_name" />
+
+    <LinearLayout
+        android:id="@+id/searchRoot"
+        style="@style/Search_Bar"
+        android:layout_marginTop="@dimen/f10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/id_drawer_layout_toolbar">
+
+        <EditText
+            android:id="@+id/et_search"
+            style="@style/Search_Bar_Edit"
+            android:hint="@string/search"
+            android:inputType="number" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/root_nodata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/no_data"
+        android:textColor="@color/hint_text_color"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_fund"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/f10"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/light_menu_header"
+        app:layout_constraintTop_toBottomOf="@id/searchRoot"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_fundCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="code"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/f10" />
+
+            <TextView
+                android:id="@+id/tv_fundName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_margin="@dimen/f10"
+                android:text="基金"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/f18" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/f10">
+
+                <TextView
+                    android:id="@+id/tv_netValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="1.4"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/f18" />
+
+                <TextView
+                    android:id="@+id/tv_assessValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="1.5"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/f18" />
+
+                <TextView
+                    android:id="@+id/tv_gszzl"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="1.5%"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/f18" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/f15"
+                android:background="@drawable/shape_white_25"
+                android:text="添加到我的基金" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
