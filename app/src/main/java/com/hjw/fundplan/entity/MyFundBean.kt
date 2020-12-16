@@ -15,8 +15,11 @@ class MyFundBean {
     var id: Long = 0
     var code:String =""
     var name:String =""
+    //金额
     var money:Double= 0.0
+    //盈利金额
     var earnings:Double= 0.0
+    //盈利率
     var rate_return:Double= 0.0
 
 

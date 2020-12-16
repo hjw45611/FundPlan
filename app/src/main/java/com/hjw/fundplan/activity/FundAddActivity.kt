@@ -13,6 +13,7 @@ import com.hjw.fundplan.base.BaseActivity
 import com.hjw.fundplan.bean.FundLSJZListBean
 import com.hjw.fundplan.contract.IFundAddPresenter
 import com.hjw.fundplan.contract.IFundAddView
+import com.hjw.fundplan.entity.FundHaveRecordBean
 import com.hjw.fundplan.presenter.FundAddPresenter
 import kotlinx.android.synthetic.main.activity_fund_add.*
 import org.jetbrains.anko.toast
@@ -48,6 +49,7 @@ class FundAddActivity : BaseActivity<IFundAddPresenter>(), IFundAddView {
                 return@setOnClickListener
             }
 
+            mPresenter?.addFundHave(FundHaveRecordBean(code!!,price.toDouble(),num.toDouble()))
         }
     }
 

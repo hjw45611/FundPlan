@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hjw.fundplan.R
 import com.hjw.fundplan.activity.FundSearchActivity
+import com.hjw.fundplan.base.BaseFragment
+import com.hjw.fundplan.contract.IFundShowPresenter
+import com.hjw.fundplan.contract.IFundShowView
+import com.hjw.fundplan.presenter.FundShowPresenter
 import kotlinx.android.synthetic.main.fragment_fund.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -21,7 +25,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [FundFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FundFragment : Fragment() {
+class FundFragment : BaseFragment<IFundShowPresenter>(), IFundShowView {
 //    private var param1: String? = null
 //    private var param2: String? = null
 
@@ -68,5 +72,10 @@ class FundFragment : Fragment() {
 //                    putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun initPresenter() {
+        mPresenter = FundShowPresenter()
+        mPresenter.attachView(this)
     }
 }
