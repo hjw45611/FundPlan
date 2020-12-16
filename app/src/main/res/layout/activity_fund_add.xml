@@ -21,13 +21,20 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:title="@string/app_name" />
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/char_line"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintTop_toBottomOf="@id/id_drawer_layout_toolbar" />
+
+
     <EditText
         android:id="@+id/et_havePrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:digits="1234567890."
         android:hint="请输入持仓成本"
-        app:layout_constraintTop_toBottomOf="@id/id_drawer_layout_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/char_line" />
 
     <EditText
         android:id="@+id/et_haveNum"
@@ -37,4 +44,25 @@
         android:hint="请输入持仓份额"
         app:layout_constraintTop_toBottomOf="@id/et_havePrice" />
 
+    <Button
+        android:id="@+id/btn_addFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="加入备选"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_haveNum" />
+
+    <Button
+        android:id="@+id/btn_addHave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/shape_theme_5"
+        android:text="加入持仓"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_haveNum" />
 </androidx.constraintlayout.widget.ConstraintLayout>

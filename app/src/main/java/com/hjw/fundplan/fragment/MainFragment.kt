@@ -107,9 +107,10 @@ class MainFragment : BaseFragment<IMainShowPresenter>(), IMainShowView {
     }
 
     override fun setMainInfo(mainInfoBean: MainInfoBean?) {
-        mainInfoBean.let {
-            if (it?.data?.total!! > 0) {
-                it?.data?.diff?.let { adapter?.updateData(it) }
+        if (mainInfoBean != null) {
+            if (mainInfoBean.data?.total!! > 0) {
+                mainInfoBean?.data?.diff?.let { adapter?.updateData(it) }
+
             }
         }
     }

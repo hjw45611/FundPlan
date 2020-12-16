@@ -8,7 +8,7 @@ package com.hjw.fundplan.bean
 data class MainInfoBean(
     var rc: Int = 0,
     var rt: Int = 0,
-    var svr: Int = 0,
+    var svr: Long = 0,
     var lt: Int = 0,
     var full: Int = 0,
     var data: DataInfo? = null

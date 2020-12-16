@@ -22,7 +22,9 @@ class MainShowPresenter : BasePresenter<IMainShowView>(), IMainShowPresenter {
         ApiRepo().getMainInfo(object : IBaseCallback {
             override fun onSuccess(message: String) {
                 Log.d(TAG, "onSearchSuccess=$message")
-                mView.setMainInfo(JsonUtils.fromJson(message, MainInfoBean::class.java))
+                mView.let {
+                    it.setMainInfo(JsonUtils.fromJson(message, MainInfoBean::class.java))
+                }
             }
 
             override fun onFailure() {

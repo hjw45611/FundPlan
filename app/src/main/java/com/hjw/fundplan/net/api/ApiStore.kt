@@ -3,6 +3,7 @@ package com.hjw.fundplan.net.api
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -25,5 +26,16 @@ interface ApiStore {
     fun getMainInfo(
         @Query("secids") secids: String?,
         @Query("fields") fields: String?
+    ): Call<ResponseBody?>?
+
+    /**
+     * 首页信息
+     */
+    @Headers("Referer: http://fundf10.eastmoney.com/jjjz_008086.html")
+    @GET("http://api.fund.eastmoney.com/f10/lsjz")
+    fun getFundJingzhi(
+        @Query("fundCode") fundCode: String?,
+        @Query("pageIndex") pageIndex: Int?,
+        @Query("pageSize") pageSize: Int?
     ): Call<ResponseBody?>?
 }

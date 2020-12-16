@@ -94,4 +94,29 @@ class ApiRepo {
             })
         }
     }
+
+
+    fun getFundJingzhi(code: String, page: Int, back: IBaseCallback) {
+        getMdmLoginApiStore()?.let {
+            val imeiLogin = it.getFundJingzhi(
+                code, page, 20
+            )
+            imeiLogin!!.enqueue(object : Callback<ResponseBody?> {
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                    back.onFailure()
+                }
+
+                override fun onResponse(
+                    call: Call<ResponseBody?>,
+                    response: Response<ResponseBody?>
+                ) {
+                    val string = response.body()?.string()
+                    if (!string.isNullOrEmpty()) {
+                        back.onSuccess(string)
+                    }
+                }
+
+            })
+        }
+    }
 }

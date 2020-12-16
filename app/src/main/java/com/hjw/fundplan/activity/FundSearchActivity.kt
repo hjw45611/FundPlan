@@ -37,6 +37,7 @@ class FundSearchActivity : BaseActivity<IFundSearchPresenter>(), IFundSearchView
         btn_add.setOnClickListener {
             val intent = Intent(context, FundAddActivity::class.java)
             intent.putExtra(FundAddActivity.Name, infoBean?.name)
+            intent.putExtra(FundAddActivity.Code, infoBean?.fundcode)
             startActivity(intent)
         }
     }
