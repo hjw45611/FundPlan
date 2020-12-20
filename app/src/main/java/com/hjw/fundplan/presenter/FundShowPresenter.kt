@@ -3,7 +3,10 @@ package com.hjw.fundplan.presenter
 import com.hjw.fundplan.base.BasePresenter
 import com.hjw.fundplan.contract.IFundShowPresenter
 import com.hjw.fundplan.contract.IFundShowView
+import com.hjw.fundplan.entity.MyFundBean
 import com.hjw.fundplan.net.DbRepo
+import com.hjw.fundplan.net.api.ApiRepo
+import com.hjw.fundplan.net.api.IBaseCallback
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -23,6 +26,21 @@ class FundShowPresenter : BasePresenter<IFundShowView>(), IFundShowPresenter {
                     it
                 )
             }
+        }
+    }
+
+    override fun searchNew(beans: MutableList<MyFundBean>) {
+        beans.forEach {
+            ApiRepo().searchCode(it.code,object : IBaseCallback{
+                override fun onSuccess(message: String) {
+                    getShowInfo()
+                }
+
+                override fun onFailure() {
+                }
+
+            })
+
         }
     }
 }

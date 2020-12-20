@@ -1,6 +1,14 @@
 package com.hjw.fundplan.net.api
 
+import com.hjw.fundplan.App
+import com.hjw.fundplan.bean.FundInfoBean
+import com.hjw.fundplan.entity.FundSearchRecordBean
+import com.hjw.fundplan.net.DbRepo
+import com.hjw.fundplan.util.JsonUtils
+import com.hjw.fundplan.util.TimeUtils
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -8,6 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
 
 /**
  * @author hejiangwei
@@ -49,6 +58,26 @@ class ApiRepo {
                     val string = response.body()?.string()
                     if (!string.isNullOrEmpty()) {
                         result = string.substring(string.indexOf("(") + 1, string.indexOf(")"))
+                        val info = JsonUtils.fromJson(result, FundInfoBean::class.java)
+                        GlobalScope.launch {
+                            if (info != null) {
+                                App.APP_CONTEXT?.let { it1 ->
+                                    DbRepo(it1).addFundSearchBean(
+                                        FundSearchRecordBean(
+                                            info.fundcode,
+                                            info.name,
+                                            info.dwjz.toDouble(),
+                                            info.gsz.toDouble(),
+                                            info.gszzl.toDouble(),
+                                            TimeUtils.string2Millis(
+                                                info.gztime,
+                                                SimpleDateFormat("yyyy-MM-dd HH:mm")
+                                            )
+                                        )
+                                    )
+                                }
+                            }
+                        }
                     }
                     back.onSuccess(result)
                 }
