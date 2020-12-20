@@ -32,16 +32,16 @@
         android:id="@+id/et_havePrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:digits="1234567890."
         android:hint="请输入持仓成本"
+        android:inputType="numberDecimal"
         app:layout_constraintTop_toBottomOf="@id/char_line" />
 
     <EditText
         android:id="@+id/et_haveNum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:digits="1234567890."
         android:hint="请输入持仓份额"
+        android:inputType="numberDecimal"
         app:layout_constraintTop_toBottomOf="@id/et_havePrice" />
 
     <Button

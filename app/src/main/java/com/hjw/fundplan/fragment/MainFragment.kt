@@ -20,11 +20,6 @@ import com.hjw.fundplan.inter.SwitchFragmentListener
 import com.hjw.fundplan.presenter.MainShowPresenter
 import kotlinx.android.synthetic.main.fragment_main.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 /**
  * A simple [Fragment] subclass.
  * Use the [MainFragment.newInstance] factory method to
@@ -95,7 +90,7 @@ class MainFragment : BaseFragment<IMainShowPresenter>(), IMainShowView {
         super.onHiddenChanged(hidden)
         Log.d(TAG, "hidden=$hidden")
         if (!hidden) {
-            mPresenter.getMainInfo()
+            getMainInfo()
         } else {
             handle.removeMessages(0)
         }
@@ -117,7 +112,7 @@ class MainFragment : BaseFragment<IMainShowPresenter>(), IMainShowView {
 
     fun getMainInfo() {
         mPresenter.getMainInfo()
-        handle.sendEmptyMessageDelayed(0, 2000)
+        handle.sendEmptyMessageDelayed(0, 5000)
 
     }
 }

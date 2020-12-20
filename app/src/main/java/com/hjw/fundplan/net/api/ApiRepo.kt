@@ -60,6 +60,10 @@ class ApiRepo {
 
     fun getMainInfo(back: IBaseCallback) {
         getMdmLoginApiStore()?.let {
+            //1.000001 上证指数
+            //1.000300 沪深300
+            //0.399001 深证成指
+            //0.399006 创业板指
             //0.399005 中小板指
             //8.040120 IF当月连续
             //104.CN00Y A50期指当月连续
@@ -72,6 +76,9 @@ class ApiRepo {
             //美元离岸人民币 133.USDCNH
             //美元人民币中间价 120.USDCNYC
             //原油主力 142.scm
+            //恒生指数100.HSI
+            //道琼斯 100.DJIA
+            //纳斯达克 100.NDX
             val imeiLogin = it.getMainInfo(
                 "1.000001,0.399001,0.399006,100.HSI,100.DJIA,100.NDX",
                 "f1,f2,f3,f4,f12,f13,f14,f107,f152"

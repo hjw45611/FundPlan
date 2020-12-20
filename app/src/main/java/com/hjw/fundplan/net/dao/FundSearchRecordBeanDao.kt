@@ -24,6 +24,9 @@ interface FundSearchRecordBeanDao {
     @Query("SELECT * FROM FundSearchRecordBean")
     fun loadAllNoMayBe(): MutableList<FundSearchRecordBean>
 
+    @Query("SELECT * FROM FundSearchRecordBean where code = :code LIMIT 1")
+    fun loadFundSearchByCode(code: String): FundSearchRecordBean
+
     @Query("DELETE FROM FundSearchRecordBean WHERE id =:id")
     fun deleteAlarmInfo(id: Long)
 }

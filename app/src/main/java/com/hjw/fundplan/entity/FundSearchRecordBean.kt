@@ -35,6 +35,13 @@ class FundSearchRecordBean {
         gzValue: Double = 0.0,
         gzRate: Double = 0.0,
         time: Long = 0
-    )
+    ){
+        this.code = code
+        this.name = name
+        this.value = value
+        this.gzValue = gzValue
+        this.gzRate = gzRate
+        this.time = time
+    }
 
 }

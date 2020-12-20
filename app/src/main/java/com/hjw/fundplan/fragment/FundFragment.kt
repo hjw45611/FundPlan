@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hjw.fundplan.R
 import com.hjw.fundplan.activity.FundSearchActivity
+import com.hjw.fundplan.adapter.FundShowAdapter
 import com.hjw.fundplan.base.BaseFragment
 import com.hjw.fundplan.contract.IFundShowPresenter
 import com.hjw.fundplan.contract.IFundShowView
+import com.hjw.fundplan.entity.MyFundBean
 import com.hjw.fundplan.presenter.FundShowPresenter
 import kotlinx.android.synthetic.main.fragment_fund.*
 
@@ -26,8 +28,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class FundFragment : BaseFragment<IFundShowPresenter>(), IFundShowView {
-//    private var param1: String? = null
-//    private var param2: String? = null
+    //    private var param1: String? = null
+    private var adapter: FundShowAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,8 @@ class FundFragment : BaseFragment<IFundShowPresenter>(), IFundShowView {
         super.onViewCreated(view, savedInstanceState)
 
         rv_fund.layoutManager = LinearLayoutManager(context)
+        adapter = FundShowAdapter()
+        rv_fund.adapter = adapter
         btn_add.setOnClickListener {
             startActivity(Intent(context, FundSearchActivity::class.java))
         }
@@ -77,5 +81,33 @@ class FundFragment : BaseFragment<IFundShowPresenter>(), IFundShowView {
     override fun initPresenter() {
         mPresenter = FundShowPresenter()
         mPresenter.attachView(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getMainInfo()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            getMainInfo()
+        }
+    }
+
+    fun getMainInfo() {
+        mPresenter.getShowInfo()
+        //处于开盘时间可以进行定时请求
+//        handle.sendEmptyMessageDelayed(0, 2000)
+
+    }
+
+    override fun showFundInfo(beans: MutableList<MyFundBean>) {
+        if (beans.isNotEmpty()) {
+            mPresenter.searchFun
+        }
+        rv_fund.post {
+            adapter?.let { it.updateData(beans) }
+        }
     }
 }

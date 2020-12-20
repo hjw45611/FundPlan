@@ -21,6 +21,10 @@ class FundHaveRecordBean {
     //份额
     var num: Double = 0.0
 
-    constructor(code: String = "", price: Double = 0.0, num: Double = 0.0)
+    constructor(code: String = "", price: Double = 0.0, num: Double = 0.0) {
+        this.code = code
+        this.price = price
+        this.num = num
+    }
 
 }

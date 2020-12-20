@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleOwner;
 public abstract class BaseFragment<T extends IContract.IPresenter<? extends IContract.IView>> extends Fragment implements IContract.IView {
 
     protected T mPresenter;
+    protected Context mContext;
 
     @Override
     public LifecycleOwner getLifecycleOwner() {
@@ -22,6 +23,7 @@ public abstract class BaseFragment<T extends IContract.IPresenter<? extends ICon
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this.getActivity().getBaseContext();
         initPresenter();
         if (mPresenter != null) {
             getLifecycle().addObserver(mPresenter);
@@ -30,6 +32,10 @@ public abstract class BaseFragment<T extends IContract.IPresenter<? extends ICon
 
     protected abstract void initPresenter();
 
+    @Override
+    public Context getContext() {
+        return mContext;
+    }
 
     @Override
     public void showMessage(String message) {

@@ -14,6 +14,7 @@ import com.hjw.fundplan.util.TimeUtils
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.toast
+import java.text.SimpleDateFormat
 
 /**
  * @author hejiangwei
@@ -33,9 +34,19 @@ class FundSearchPresenter : BasePresenter<IFundSearchView>(), IFundSearchPresent
                 GlobalScope.launch {
                     mView.context?.let {
                         if (info != null) {
-                            DbRepo(it).addFundSearchBean(FundSearchRecordBean(info.fundcode,info.name,
-                                info.dwjz.toDouble(),info.gsz.toDouble(),info.gszzl.toDouble(),
-                                TimeUtils.string2Millis(info.gztime)))
+                            DbRepo(it).addFundSearchBean(
+                                FundSearchRecordBean(
+                                    info.fundcode,
+                                    info.name,
+                                    info.dwjz.toDouble(),
+                                    info.gsz.toDouble(),
+                                    info.gszzl.toDouble(),
+                                    TimeUtils.string2Millis(
+                                        info.gztime,
+                                        SimpleDateFormat("yyyy-MM-dd HH:mm")
+                                    )
+                                )
+                            )
                         }
                     }
                 }
