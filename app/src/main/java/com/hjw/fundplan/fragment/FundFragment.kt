@@ -2,7 +2,6 @@ package com.hjw.fundplan.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -106,7 +105,7 @@ class FundFragment : BaseFragment<IFundShowPresenter>(), IFundShowView {
 
     override fun showFundInfo(beans: MutableList<MyFundBean>) {
         if (beans.isNotEmpty() && searchNew < 0) {
-            Handler().postDelayed(Runnable { mPresenter.searchNew(beans) }, 1000)
+            mPresenter.searchNew(beans)
         }
         rv_fund.post {
             adapter?.let { it.updateData(beans) }
