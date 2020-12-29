@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="280dp"
-    android:layout_gravity="start"
     android:layout_height="match_parent"
-    android:clickable="true"
+    android:layout_gravity="start"
     android:background="@android:color/white"
+    android:clickable="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,8 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@color/light_menu_header"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="@dimen/padding_top">
+        android:paddingTop="@dimen/padding_top"
+        android:paddingBottom="10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -27,7 +26,7 @@
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:background="@android:drawable/ic_lock_idle_lock"/>
+                android:background="@android:drawable/ic_lock_idle_lock" />
 
             <TextView
                 android:id="@+id/id_draw_menu_item_login_tv"
@@ -37,7 +36,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/draw_menu_item_login_tv"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -54,41 +53,72 @@
                 android:gravity="center"
                 android:text="@string/draw_menu_item_backup"
                 android:textColor="@android:color/white"
-                android:textSize="15sp"/>
-                android:drawableLeft="@drawable/ic_star_white_24dp"
+                android:textSize="15sp" />
+            android:drawableLeft="@drawable/ic_star_white_24dp"
 
-<!--            <TextView-->
-<!--                android:id="@+id/id_draw_menu_item_download"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginLeft="20dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:drawableLeft="@drawable/ic_file_download_white_24dp"-->
-<!--                android:gravity="center"-->
-<!--                android:text="@string/draw_menu_item_download"-->
-<!--                android:textColor="@android:color/white"-->
-<!--                android:textSize="15sp"/>-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/id_draw_menu_item_download"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginLeft="20dp"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:drawableLeft="@drawable/ic_file_download_white_24dp"-->
+            <!--                android:gravity="center"-->
+            <!--                android:text="@string/draw_menu_item_download"-->
+            <!--                android:textColor="@android:color/white"-->
+            <!--                android:textSize="15sp"/>-->
         </LinearLayout>
     </LinearLayout>
-
     <TextView
         android:id="@+id/id_draw_menu_item_main_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingLeft="80dp"
+        android:gravity="center_horizontal"
         android:paddingTop="10dp"
-        android:text="@string/draw_menu_item_main"
+        android:paddingBottom="10dp"
+        android:text="@string/home_page"
         android:textColor="@android:color/holo_blue_dark"
-        android:textSize="18sp"
-        />
-<!--        android:background="@color/light_menu_index_background"-->
+        android:textSize="18sp" />
 
-<!--    <ListView-->
-<!--        android:id="@+id/id_draw_menu_item_list_select"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:background="@android:color/white"-->
-<!--        android:divider="@android:color/transparent"-->
-<!--        android:scrollbars="none"></ListView>-->
+    <TextView
+        android:id="@+id/id_draw_menu_item_fund_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/fund"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/id_draw_menu_item_plan_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/plan_dateMoney"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/id_draw_menu_item_tools_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/count_tools"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp" />
+    <!--        android:background="@color/light_menu_index_background"-->
+
+    <!--    <ListView-->
+    <!--        android:id="@+id/id_draw_menu_item_list_select"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="@android:color/white"-->
+    <!--        android:divider="@android:color/transparent"-->
+    <!--        android:scrollbars="none"></ListView>-->
 </LinearLayout>
