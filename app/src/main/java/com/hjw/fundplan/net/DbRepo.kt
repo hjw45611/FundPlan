@@ -1,6 +1,7 @@
 package com.hjw.fundplan.net
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
 import com.hjw.fundplan.entity.FundHaveRecordBean
 import com.hjw.fundplan.entity.FundSearchRecordBean
@@ -48,10 +49,12 @@ class DbRepo(context: Context) {
     }
 
     fun addFundSearchBean(fundSearchRecordBean: FundSearchRecordBean) {
+        Log.d(TAG,"addFundSearchBean")
         mFundSearchRecordBeanDao.insertOrUpdateTx(fundSearchRecordBean)
     }
 
     fun addFundHaveBean(fundHaveRecordBean: FundHaveRecordBean) {
+        Log.d(TAG,"addFundHaveBean")
         mFundHaveRecordBean.insertOrUpdateTx(fundHaveRecordBean)
         val loadFundByCode = mFundHaveRecordBean.loadFundByCode(fundHaveRecordBean.code)
         val loadFundSearchByCode =
@@ -77,6 +80,7 @@ class DbRepo(context: Context) {
     }
 
     fun getMyFundBeanBeans(): MutableList<MyFundBean> {
+        Log.d(TAG,"getMyFundBeanBeans")
         return myFundBeanDao.loadAllNoMayBe()
     }
 

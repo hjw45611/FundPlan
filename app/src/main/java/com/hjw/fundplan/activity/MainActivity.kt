@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.KeyEvent
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentTransaction
 import com.hjw.fundplan.R
 import com.hjw.fundplan.base.BaseActivity
@@ -81,7 +82,7 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragmentListener {
                 }
                 mHomeFragment?.bindCallBack(this)
                 //更新标题
-                id_drawer_layout_toolbar?.setTitle(R.string.home_page)
+                findViewById<Toolbar>(R.id.id_drawer_layout_toolbar).setTitle(R.string.home_page)
 
             }
             R.id.id_draw_menu_item_fund_tv//基金
@@ -97,7 +98,7 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragmentListener {
                 }
 
                 //更新标题
-                id_drawer_layout_toolbar?.setTitle(R.string.fund)
+                findViewById<Toolbar>(R.id.id_drawer_layout_toolbar).setTitle(R.string.fund)
             }
             R.id.id_draw_menu_item_tools_tv//工具
             -> {
@@ -112,7 +113,7 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragmentListener {
                 }
 
                 //更新标题
-                id_drawer_layout_toolbar?.setTitle(R.string.count_tools)
+                findViewById<Toolbar>(R.id.id_drawer_layout_toolbar).setTitle(R.string.count_tools)
             }
             else -> toast("没有相应界面！")
         }
@@ -139,7 +140,7 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragmentListener {
         val toggle = ActionBarDrawerToggle(
             this,
             layout_drawer,
-            id_drawer_layout_toolbar,
+            findViewById<Toolbar>(R.id.id_drawer_layout_toolbar),
             R.string.app_name,
             R.string.app_name
         )

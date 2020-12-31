@@ -16,6 +16,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.hjw.fundplan.R
 import com.hjw.fundplan.base.IContract.IPresenter
 import com.hjw.fundplan.base.IContract.IView
+import org.greenrobot.eventbus.EventBus
 
 abstract class BaseActivity<T : IPresenter<out IView?>?> : AppCompatActivity(),
     IView {
@@ -28,6 +29,9 @@ abstract class BaseActivity<T : IPresenter<out IView?>?> : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         translucentStatusBar()
         setContentView(getLayoutId())
+        if (isRegisterEventBus()) {
+            EventBus.getDefault().register(this)
+        }
         mContext = this
         if (findViewById<Toolbar>(R.id.id_drawer_layout_toolbar) != null) {
             setSupportActionBar(findViewById<Toolbar>(R.id.id_drawer_layout_toolbar))
@@ -61,9 +65,13 @@ abstract class BaseActivity<T : IPresenter<out IView?>?> : AppCompatActivity(),
     protected abstract fun initView()
     protected abstract fun getLayoutId(): Int
     open fun setNavigation(): Boolean = true
+    open fun isRegisterEventBus(): Boolean = false
     protected abstract fun initPresenter()
     override fun onDestroy() {
         super.onDestroy()
+        if (isRegisterEventBus()) {
+            EventBus.getDefault().unregister(this)
+        }
         if (mPresenter != null) {
             lifecycle.removeObserver(mPresenter!!)
         }

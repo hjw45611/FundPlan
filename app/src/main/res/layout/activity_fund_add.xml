@@ -6,20 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".activity.FundAddActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <include
         android:id="@id/id_drawer_layout_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/light_menu_header"
-        android:elevation="4dp"
-        android:gravity="center_vertical"
-        android:minHeight="?android:actionBarSize"
-        android:paddingTop="@dimen/padding_top"
-
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="@string/app_name" />
+        layout="@layout/layout_toolbar" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/char_line"

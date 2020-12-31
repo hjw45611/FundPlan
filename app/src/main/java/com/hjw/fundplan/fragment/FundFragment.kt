@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.hjw.fundplan.R
 import com.hjw.fundplan.activity.FundSearchActivity
 import com.hjw.fundplan.adapter.FundShowAdapter
@@ -51,6 +53,7 @@ class FundFragment : BaseFragment<IFundShowPresenter>(), IFundShowView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+//        rv_fund.addItemDecoration(ItemDecoration())
         rv_fund.layoutManager = LinearLayoutManager(context)
         adapter = FundShowAdapter()
         rv_fund.adapter = adapter
@@ -106,6 +109,7 @@ class FundFragment : BaseFragment<IFundShowPresenter>(), IFundShowView {
     override fun showFundInfo(beans: MutableList<MyFundBean>) {
         if (beans.isNotEmpty() && searchNew < 0) {
             mPresenter.searchNew(beans)
+            searchNew += 1
         }
         rv_fund.post {
             adapter?.let { it.updateData(beans) }

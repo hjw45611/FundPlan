@@ -38,6 +38,6 @@
         android:id="@+id/btn_come"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:text="达成"/>
 
 </LinearLayout>

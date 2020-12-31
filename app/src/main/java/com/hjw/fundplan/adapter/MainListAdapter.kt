@@ -39,7 +39,7 @@ class MainListAdapter : RecyclerView.Adapter<MainListAdapter.ViewHolder>() {
         fun bindData(appInfoBean: DiffBean) {
             txtIndex.text = appInfoBean.f14
             txtStatus.text =
-                "${(appInfoBean.f2.toDouble() / 100).toString()} ${(appInfoBean.f4.toDouble() / 100).toString()} ${(appInfoBean.f3.toDouble() / 100).toString()}%"
+                "${(appInfoBean.f2.toDouble() / 100).toString()}  ${(appInfoBean.f4.toDouble() / 100).toString()}  ${(appInfoBean.f3.toDouble() / 100).toString()}%"
 
             txtStatus.textColor = if (appInfoBean.f3 < 0) Color.parseColor("#009900") else {
                 Color.RED

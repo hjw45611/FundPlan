@@ -65,4 +65,7 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
     implementation project(path: ':MPChartLib')
+
+    // EventBus
+    implementation 'org.greenrobot:eventbus:3.0.0'
 }

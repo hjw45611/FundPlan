@@ -1,6 +1,7 @@
 package com.hjw.fundplan.activity
 
 import android.graphics.Color
+import androidx.appcompat.widget.Toolbar
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -32,7 +33,7 @@ class FundAddActivity : BaseActivity<IFundAddPresenter>(), IFundAddView {
 
         var stringExtra = intent.getStringExtra(Name)
         code = intent.getStringExtra(Code)
-        id_drawer_layout_toolbar.title = stringExtra
+        findViewById<Toolbar>(R.id.id_drawer_layout_toolbar).title = stringExtra
 
         initChart()
         btn_addFirst.setOnClickListener {
@@ -60,21 +61,6 @@ class FundAddActivity : BaseActivity<IFundAddPresenter>(), IFundAddView {
         // set listeners
 //        char_line.setOnChartValueSelectedListener(this)
         char_line.setDrawGridBackground(false)
-
-        // create marker to display box when values are selected
-
-//        // create marker to display box when values are selected
-//        val mv = MyMarkerView(this, R.layout.custom_marker_view)
-//
-//        // Set the marker to the chart
-//
-//        // Set the marker to the chart
-//        mv.setChartView(chart)
-//        chart.setMarker(mv)
-
-        // enable scaling and dragging
-
-        // enable scaling and dragging
         char_line.setDragEnabled(true)
         char_line.setScaleEnabled(true)
 
@@ -140,39 +126,6 @@ class FundAddActivity : BaseActivity<IFundAddPresenter>(), IFundAddView {
             set1 = LineDataSet(entrys, "基金净值")
             set1.color = getColor(R.color.light_menu_header)
             set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-//            set1.setDrawIcons(false)
-//
-//            // draw dashed line
-////            set1.enableDashedLine(10f, 5f, 0f)
-//
-//            // black lines and points
-//            set1.setCircleColor(Color.BLACK)
-//
-//            // line thickness and point size
-//            set1.setLineWidth(1f)
-//            set1.setCircleRadius(3f)
-//
-//            // draw points as solid circles
-//            set1.setDrawCaircleHole(false)
-//
-//            // customize legend entry
-//            set1.setFormLineWidth(1f)
-////            set1.setFormLineDashEffect(DashPathEffect(floatArrayOf(10f, 5f), 0f))
-//            set1.setFormSize(15f)
-//
-//            // text size of values
-//            set1.setValueTextSize(9f)
-//
-//            // draw selection line as dashed
-////            set1.enableDashedHighlightLine(10f, 5f, 0f)
-//
-//            // set the filled area
-//            set1.setDrawFilled(true)
-////            set1.setFillFormatter(IFillFormatter { dataSet, dataProvider ->
-////                char_line.getAxisLeft().getAxisMinimum()
-////            })
-//
-//            // set color of filled area
             set1.setFillColor(Color.BLACK)
             val dataSets: ArrayList<ILineDataSet> = ArrayList()
             dataSets.add(set1) // add the data sets

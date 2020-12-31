@@ -28,6 +28,8 @@ import kotlinx.android.synthetic.main.fragment_main.*
 class MainFragment : BaseFragment<IMainShowPresenter>(), IMainShowView {
     var callBack: SwitchFragmentListener? = null
     var adapter: MainListAdapter? = null
+    var requestIndex: Int = 0
+    var myMainInfoBean: MainInfoBean? = null
     var handle: Handler = object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
@@ -93,6 +95,7 @@ class MainFragment : BaseFragment<IMainShowPresenter>(), IMainShowView {
             getMainInfo()
         } else {
             handle.removeMessages(0)
+            requestIndex = 0
         }
     }
 
@@ -103,6 +106,12 @@ class MainFragment : BaseFragment<IMainShowPresenter>(), IMainShowView {
 
     override fun setMainInfo(mainInfoBean: MainInfoBean?) {
         if (mainInfoBean != null) {
+            if (mainInfoBean.equals(myMainInfoBean)) {
+                requestIndex++
+            } else {
+                requestIndex = 0
+            }
+            myMainInfoBean = mainInfoBean
             if (mainInfoBean.data?.total!! > 0) {
                 mainInfoBean?.data?.diff?.let { adapter?.updateData(it) }
 
@@ -111,6 +120,9 @@ class MainFragment : BaseFragment<IMainShowPresenter>(), IMainShowView {
     }
 
     fun getMainInfo() {
+        if (requestIndex >= 3) {
+            return
+        }
         mPresenter.getMainInfo()
         handle.sendEmptyMessageDelayed(0, 5000)
 

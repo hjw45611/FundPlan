@@ -6,19 +6,23 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.appcompat.widget.Toolbar
 import com.hjw.fundplan.R
 import com.hjw.fundplan.base.BaseActivity
 import com.hjw.fundplan.bean.FundInfoBean
 import com.hjw.fundplan.contract.IFundSearchPresenter
 import com.hjw.fundplan.contract.IFundSearchView
+import com.hjw.fundplan.event.FundAddEvent
 import com.hjw.fundplan.ext.removeSpace
 import com.hjw.fundplan.presenter.FundSearchPresenter
 import kotlinx.android.synthetic.main.activity_fund_search.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class FundSearchActivity : BaseActivity<IFundSearchPresenter>(), IFundSearchView {
     private var infoBean: FundInfoBean? = null
     override fun initView() {
-        id_drawer_layout_toolbar.setTitle(R.string.fund_search)
+        findViewById<Toolbar>(R.id.id_drawer_layout_toolbar).setTitle(R.string.fund_search)
         et_search.setOnEditorActionListener { v, actionId, event ->
             if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 //搜索 类型，内容。
@@ -76,4 +80,16 @@ class FundSearchActivity : BaseActivity<IFundSearchPresenter>(), IFundSearchView
 
 
     }
+
+    override fun isRegisterEventBus(): Boolean {
+        return true
+    }
+    /**
+     * 应用退出
+     */
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    fun onAppExit(e: FundAddEvent?) {
+        finish()
+    }
+
 }

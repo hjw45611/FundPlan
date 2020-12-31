@@ -1,5 +1,6 @@
 package com.hjw.fundplan.adapter
 
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hjw.fundplan.R
+import com.hjw.fundplan.activity.FundRecordsActivity
 import com.hjw.fundplan.bean.DiffBean
 import com.hjw.fundplan.entity.MyFundBean
 import com.hjw.fundplan.util.StringUtils
@@ -32,6 +34,9 @@ class FundShowAdapter : RecyclerView.Adapter<FundShowAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindData(mDatas[position])
+        holder.itemView.setOnClickListener {
+            holder.itemView.context.startActivity(Intent(holder.itemView.context,FundRecordsActivity::class.java))
+        }
     }
 
 

@@ -7,12 +7,14 @@ import com.hjw.fundplan.bean.FundValueBean
 import com.hjw.fundplan.contract.IFundAddPresenter
 import com.hjw.fundplan.contract.IFundAddView
 import com.hjw.fundplan.entity.FundHaveRecordBean
+import com.hjw.fundplan.event.FundAddEvent
 import com.hjw.fundplan.net.DbRepo
 import com.hjw.fundplan.net.api.ApiRepo
 import com.hjw.fundplan.net.api.IBaseCallback
 import com.hjw.fundplan.util.JsonUtils
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 
 /**
  * @author hejiangwei
@@ -43,6 +45,7 @@ class FundAddPresenter : BasePresenter<IFundAddView>(), IFundAddPresenter {
     override fun addFundHave(fundHaveRecordBean: FundHaveRecordBean) {
         GlobalScope.launch {
             mView.context?.let { DbRepo(it).addFundHaveBean(fundHaveRecordBean) }
+            EventBus.getDefault().post(FundAddEvent())
             mView.activity?.finish()
         }
 
