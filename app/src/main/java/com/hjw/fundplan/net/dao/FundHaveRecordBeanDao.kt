@@ -22,7 +22,7 @@ interface FundHaveRecordBeanDao {
 
     @Query("SELECT * FROM FundHaveRecordBean")
     fun loadAllNoMayBe(): MutableList<FundHaveRecordBean>
-    @Query("SELECT * FROM FundHaveRecordBean where code =:code")
+    @Query("SELECT * FROM FundHaveRecordBean where code =:code ORDER BY time DESC")
     fun loadFundByCode(code:String): MutableList<FundHaveRecordBean>
 
     @Query("DELETE FROM FundHaveRecordBean WHERE id =:id")

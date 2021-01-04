@@ -16,6 +16,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.hjw.fundplan.R
 import com.hjw.fundplan.base.IContract.IPresenter
 import com.hjw.fundplan.base.IContract.IView
+import com.hjw.fundplan.util.AppUtils
 import org.greenrobot.eventbus.EventBus
 
 abstract class BaseActivity<T : IPresenter<out IView?>?> : AppCompatActivity(),
@@ -25,9 +26,8 @@ abstract class BaseActivity<T : IPresenter<out IView?>?> : AppCompatActivity(),
     protected var mPresenter: T? = null
     protected var mContext: Context? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
-        translucentStatusBar()
+        AppUtils.setStatusBarColor(this,R.color.light_menu_header)
         setContentView(getLayoutId())
         if (isRegisterEventBus()) {
             EventBus.getDefault().register(this)
@@ -40,27 +40,13 @@ abstract class BaseActivity<T : IPresenter<out IView?>?> : AppCompatActivity(),
                 findViewById<Toolbar>(R.id.id_drawer_layout_toolbar).setNavigationOnClickListener { finish() }
             }
         }
-        initView()
         initPresenter()
+        initView()
         if (mPresenter != null) {
             lifecycle.addObserver(mPresenter!!)
         }
     }
 
-    /**
-     * 实现5.0以上状态栏透明(默认状态是半透明)
-     */
-    private fun translucentStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val decorView = window.decorView as ViewGroup
-            decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            window.statusBarColor = ContextCompat.getColor(
-                context,
-                R.color.light_menu_header
-            )
-        }
-    }
 
     protected abstract fun initView()
     protected abstract fun getLayoutId(): Int

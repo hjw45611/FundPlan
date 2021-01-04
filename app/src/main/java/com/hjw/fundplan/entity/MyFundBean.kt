@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 /**
  * @author hejiangwei
  * Created at 2020/12/11.
- * @Describe
+ * @Describe 我的基金盈利情况
  */
 @Entity(indices = [Index(value = ["code"], unique = true)])
 class MyFundBean {

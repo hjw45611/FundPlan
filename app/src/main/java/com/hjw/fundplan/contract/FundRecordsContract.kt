@@ -1,8 +1,6 @@
 package com.hjw.fundplan.contract
 
-import com.github.mikephil.charting.data.Entry
 import com.hjw.fundplan.base.IContract
-import com.hjw.fundplan.bean.FundLSJZListBean
 import com.hjw.fundplan.entity.FundHaveRecordBean
 
 /**
@@ -11,8 +9,9 @@ import com.hjw.fundplan.entity.FundHaveRecordBean
  * @Describe
  */
 interface IFundRecordsPresenter : IContract.IPresenter<IFundRecordsView> {
+    fun getRecords(code: String)
 }
 
 interface IFundRecordsView : IContract.IView {
-
+    fun setData(data:MutableList<FundHaveRecordBean>)
 }

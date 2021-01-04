@@ -49,12 +49,15 @@ class DbRepo(context: Context) {
     }
 
     fun addFundSearchBean(fundSearchRecordBean: FundSearchRecordBean) {
-        Log.d(TAG,"addFundSearchBean")
         mFundSearchRecordBeanDao.insertOrUpdateTx(fundSearchRecordBean)
     }
 
+    fun getFundSearchBean(code: String): FundSearchRecordBean {
+        return mFundSearchRecordBeanDao.loadFundSearchByCode(code)
+    }
+
     fun addFundHaveBean(fundHaveRecordBean: FundHaveRecordBean) {
-        Log.d(TAG,"addFundHaveBean")
+        Log.d(TAG, "addFundHaveBean")
         mFundHaveRecordBean.insertOrUpdateTx(fundHaveRecordBean)
         val loadFundByCode = mFundHaveRecordBean.loadFundByCode(fundHaveRecordBean.code)
         val loadFundSearchByCode =
@@ -75,12 +78,16 @@ class DbRepo(context: Context) {
         myFundBeanDao.insertOrUpdateTx(fund)
     }
 
-    fun getFundHaveBeans(): MutableList<FundHaveRecordBean> {
+    fun getAllFundHaveBeans(): MutableList<FundHaveRecordBean> {
         return mFundHaveRecordBean.loadAllNoMayBe()
     }
 
+    fun getFundHaveBeansByCode(code: String): MutableList<FundHaveRecordBean> {
+        return mFundHaveRecordBean.loadFundByCode(code)
+    }
+
     fun getMyFundBeanBeans(): MutableList<MyFundBean> {
-        Log.d(TAG,"getMyFundBeanBeans")
+        Log.d(TAG, "getMyFundBeanBeans")
         return myFundBeanDao.loadAllNoMayBe()
     }
 

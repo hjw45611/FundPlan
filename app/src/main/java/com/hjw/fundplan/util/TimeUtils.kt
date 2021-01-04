@@ -23,6 +23,10 @@ class TimeUtils {
             return format.parse(time).time
         }
 
+        fun millis2String(millis: Long, format: DateFormat = defaultFormat): String? {
+            return format.format(Date(millis))
+        }
+
         private val SDF_THREAD_LOCAL = ThreadLocal<SimpleDateFormat>()
         private val defaultFormat: SimpleDateFormat
             private get() {

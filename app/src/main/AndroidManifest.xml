@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.FundRecordsActivity"></activity>
+        <activity android:name=".activity.FundPlanAddActivity"></activity>
+        <activity android:name=".activity.FundPlanActivity" />
+        <activity android:name=".activity.FundRecordsActivity" />
         <activity android:name=".activity.FundAddActivity" />
         <activity android:name=".activity.FundSearchActivity" />
         <activity
