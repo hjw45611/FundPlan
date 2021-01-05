@@ -4,9 +4,11 @@ import android.content.Context
 import android.util.Log
 import androidx.room.Room
 import com.hjw.fundplan.entity.FundHaveRecordBean
+import com.hjw.fundplan.entity.FundPlanBean
 import com.hjw.fundplan.entity.FundSearchRecordBean
 import com.hjw.fundplan.entity.MyFundBean
 import com.hjw.fundplan.net.dao.FundHaveRecordBeanDao
+import com.hjw.fundplan.net.dao.FundPlanBeanDao
 import com.hjw.fundplan.net.dao.FundSearchRecordBeanDao
 import com.hjw.fundplan.net.dao.MyFundBeanDao
 
@@ -15,6 +17,7 @@ class DbRepo(context: Context) {
     private val myFundBeanDao: MyFundBeanDao
     private val mFundSearchRecordBeanDao: FundSearchRecordBeanDao
     private val mFundHaveRecordBean: FundHaveRecordBeanDao
+    private val mFundPlanBeanDao: FundPlanBeanDao
 
     companion object {
         private val TAG = DbRepo::class.java.simpleName
@@ -31,6 +34,7 @@ class DbRepo(context: Context) {
         myFundBeanDao = db.myFundBean
         mFundHaveRecordBean = db.fundHaveRecordBeanDao
         mFundSearchRecordBeanDao = db.fundSearchRecordBeanDao
+        mFundPlanBeanDao = db.fundPlanBeanDao
     }
 
     /**
@@ -90,6 +94,16 @@ class DbRepo(context: Context) {
         Log.d(TAG, "getMyFundBeanBeans")
         return myFundBeanDao.loadAllNoMayBe()
     }
+//--------------------------------FundPlanBean
 
+    fun addFundPlanBean(fundSearchRecordBean: FundPlanBean) {
+        mFundPlanBeanDao.insertOrUpdateTx(fundSearchRecordBean)
+    }
+    fun getFundPlanSize(code: String,type: Int,value: Int) {
+        mFundPlanBeanDao.getFundPlanSize(code,type,value)
+    }
 
+    fun getFundPlanBeans(code: String): MutableList<FundPlanBean> {
+        return mFundPlanBeanDao.loadFundPlanByCode(code)
+    }
 }

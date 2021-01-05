@@ -22,5 +22,13 @@ class FundPlanPresenter : BasePresenter<IFundPlanView>(), IFundPlanPresenter {
         }
     }
 
+    override fun getFundPlans(code: String) {
+        GlobalScope.launch {
+            mView.context?.let {
+                mView.setFundPlans(DbRepo(it).getFundPlanBeans(code))
+            }
+        }
+    }
+
 
 }

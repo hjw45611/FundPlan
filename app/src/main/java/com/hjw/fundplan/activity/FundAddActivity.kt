@@ -52,6 +52,7 @@ class FundAddActivity : BaseActivity<IFundAddPresenter>(), IFundAddView {
 
             mPresenter?.addFundHave(FundHaveRecordBean(code!!,price.toDouble(),num.toDouble()))
         }
+        mPresenter?.getValues(code!!, 1)
     }
 
     private fun initChart() {
@@ -105,7 +106,7 @@ class FundAddActivity : BaseActivity<IFundAddPresenter>(), IFundAddView {
     override fun initPresenter() {
         mPresenter = FundAddPresenter()
         (mPresenter as FundAddPresenter).attachView(this)
-        mPresenter?.getValues(code!!, 1)
+
     }
 
     override fun setLineValues(list: List<FundLSJZListBean>, entrys: List<Entry>?) {

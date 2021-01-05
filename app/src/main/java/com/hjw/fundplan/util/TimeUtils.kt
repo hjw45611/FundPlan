@@ -27,6 +27,16 @@ class TimeUtils {
             return format.format(Date(millis))
         }
 
+        /**
+         * 获取当天星期几
+         * @return 周一：0，周日：6
+         */
+        fun getTodayWeekStatus(): Int {
+            val instance = Calendar.getInstance()
+            val day = instance[Calendar.DAY_OF_WEEK]
+            return if (day == Calendar.SUNDAY) 6 else day - 2
+        }
+
         private val SDF_THREAD_LOCAL = ThreadLocal<SimpleDateFormat>()
         private val defaultFormat: SimpleDateFormat
             private get() {

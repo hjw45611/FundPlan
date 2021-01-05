@@ -56,8 +56,9 @@ class FundRecordsActivity : BaseActivity<IFundRecordsPresenter>(), IFundRecordsV
         (mPresenter as FundRecordsPresenter).attachView(this)
     }
 
-    @MainThread
     override fun setData(data: MutableList<FundHaveRecordBean>) {
-        adapter?.updateData(data)
+        runOnUiThread {
+            adapter?.updateData(data)
+        }
     }
 }
