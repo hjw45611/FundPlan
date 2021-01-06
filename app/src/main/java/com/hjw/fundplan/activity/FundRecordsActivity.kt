@@ -13,19 +13,15 @@ import com.hjw.fundplan.contract.IFundRecordsPresenter
 import com.hjw.fundplan.contract.IFundRecordsView
 import com.hjw.fundplan.entity.FundHaveRecordBean
 import com.hjw.fundplan.presenter.FundRecordsPresenter
+import com.hjw.fundplan.util.Const
 import kotlinx.android.synthetic.main.activity_fund_records.*
 
 
 class FundRecordsActivity : BaseActivity<IFundRecordsPresenter>(), IFundRecordsView {
-
-
-    companion object {
-        val CODE = "CODE"
-    }
     var code:String? = null
     var adapter: FundRecordAdapter? = null
     override fun initView() {
-        code = intent.getStringExtra(CODE)
+        code = intent.getStringExtra(Const.CODE)
         findViewById<Toolbar>(R.id.id_drawer_layout_toolbar).title = "交易记录"
         rv_fund.layoutManager = LinearLayoutManager(mContext)
         adapter = FundRecordAdapter()
@@ -42,7 +38,7 @@ class FundRecordsActivity : BaseActivity<IFundRecordsPresenter>(), IFundRecordsV
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val intent = Intent(mContext, FundPlanActivity::class.java)
-        intent.putExtra(FundPlanActivity.CODE,code)
+        intent.putExtra(Const.CODE,code)
         startActivity(intent)
         return super.onOptionsItemSelected(item)
     }

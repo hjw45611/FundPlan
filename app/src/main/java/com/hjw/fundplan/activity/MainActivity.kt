@@ -13,6 +13,7 @@ import com.hjw.fundplan.base.BaseActivity
 import com.hjw.fundplan.contract.IMainPresenter
 import com.hjw.fundplan.fragment.CountToolsFragment
 import com.hjw.fundplan.fragment.FundFragment
+import com.hjw.fundplan.fragment.FundPlanFragment
 import com.hjw.fundplan.fragment.MainFragment
 import com.hjw.fundplan.inter.SwitchFragmentListener
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,12 +25,14 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragmentListener {
     companion object {
         const val HOMEFRAGMENT_TAG = "home"
         const val FUNF_TAG = "fund"
+        const val PLAN_TAG = "plan"
         const val TOOL_TAG = "tool"
     }
 
     var back: Boolean = true
     private var mHomeFragment: MainFragment? = null
     private var mFundFragment: FundFragment? = null
+    private var mFundPlanFragment: FundPlanFragment? = null
     private var mCountToolsFragment: CountToolsFragment? = null
 
     //默认为0
@@ -40,6 +43,7 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragmentListener {
             val fManager = supportFragmentManager
             mHomeFragment = fManager.findFragmentByTag(HOMEFRAGMENT_TAG) as? MainFragment
             mFundFragment = fManager.findFragmentByTag(FUNF_TAG) as? FundFragment
+            mFundPlanFragment = fManager.findFragmentByTag(PLAN_TAG) as? FundPlanFragment
             mCountToolsFragment = fManager.findFragmentByTag(TOOL_TAG) as? CountToolsFragment
 
         }
@@ -56,7 +60,7 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragmentListener {
             switchFragment(R.id.id_draw_menu_item_fund_tv)
         }
         id_draw_menu_item_plan_tv.setOnClickListener {
-//            switchFragment(R.id.id_draw_menu_item_plan_tv)
+            switchFragment(R.id.id_draw_menu_item_plan_tv)
         }
         id_draw_menu_item_tools_tv.setOnClickListener {
             switchFragment(R.id.id_draw_menu_item_tools_tv)
@@ -100,6 +104,21 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragmentListener {
                 //更新标题
                 findViewById<Toolbar>(R.id.id_drawer_layout_toolbar).setTitle(R.string.fund)
             }
+            R.id.id_draw_menu_item_plan_tv//定投
+            -> {
+                mFundPlanFragment?.let {
+                    transaction.show(it)
+                } ?: FundPlanFragment.newInstance("").let {
+                    mFundPlanFragment = it
+                    transaction.add(
+                        R.id.id_content, it,
+                        PLAN_TAG
+                    )
+                }
+
+                //更新标题
+                findViewById<Toolbar>(R.id.id_drawer_layout_toolbar).setTitle(R.string.plan_dateMoney)
+            }
             R.id.id_draw_menu_item_tools_tv//工具
             -> {
                 mCountToolsFragment?.let {
@@ -131,6 +150,7 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragmentListener {
     private fun hideFragments(transaction: FragmentTransaction) {
         mHomeFragment?.let { transaction.hide(it) }
         mFundFragment?.let { transaction.hide(it) }
+        mFundPlanFragment?.let { transaction.hide(it) }
         mCountToolsFragment?.let { transaction.hide(it) }
     }
 
@@ -187,6 +207,9 @@ class MainActivity : BaseActivity<IMainPresenter>(), SwitchFragmentListener {
         when (tag) {
             FUNF_TAG -> switchFragment(
                 R.id.id_draw_menu_item_fund_tv
+            )
+            PLAN_TAG -> switchFragment(
+                R.id.id_draw_menu_item_plan_tv
             )
         }
     }

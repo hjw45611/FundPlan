@@ -3,14 +3,8 @@ package com.hjw.fundplan.net
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
-import com.hjw.fundplan.entity.FundHaveRecordBean
-import com.hjw.fundplan.entity.FundPlanBean
-import com.hjw.fundplan.entity.FundSearchRecordBean
-import com.hjw.fundplan.entity.MyFundBean
-import com.hjw.fundplan.net.dao.FundHaveRecordBeanDao
-import com.hjw.fundplan.net.dao.FundPlanBeanDao
-import com.hjw.fundplan.net.dao.FundSearchRecordBeanDao
-import com.hjw.fundplan.net.dao.MyFundBeanDao
+import com.hjw.fundplan.entity.*
+import com.hjw.fundplan.net.dao.*
 
 class DbRepo(context: Context) {
     private val db: AppDatabase
@@ -18,6 +12,7 @@ class DbRepo(context: Context) {
     private val mFundSearchRecordBeanDao: FundSearchRecordBeanDao
     private val mFundHaveRecordBean: FundHaveRecordBeanDao
     private val mFundPlanBeanDao: FundPlanBeanDao
+    private val mFundPlanRecordBeanDao: FundPlanRecordBeanDao
 
     companion object {
         private val TAG = DbRepo::class.java.simpleName
@@ -35,6 +30,7 @@ class DbRepo(context: Context) {
         mFundHaveRecordBean = db.fundHaveRecordBeanDao
         mFundSearchRecordBeanDao = db.fundSearchRecordBeanDao
         mFundPlanBeanDao = db.fundPlanBeanDao
+        mFundPlanRecordBeanDao = db.fundPlanRecordBeanDao
     }
 
     /**
@@ -52,12 +48,17 @@ class DbRepo(context: Context) {
 
     }
 
+//--------------------------------FundSearchRecordBean
     fun addFundSearchBean(fundSearchRecordBean: FundSearchRecordBean) {
         mFundSearchRecordBeanDao.insertOrUpdateTx(fundSearchRecordBean)
     }
 
     fun getFundSearchBean(code: String): FundSearchRecordBean {
         return mFundSearchRecordBeanDao.loadFundSearchByCode(code)
+    }
+
+    fun getAllFundSearchBeans(): MutableList<FundSearchRecordBean> {
+        return mFundSearchRecordBeanDao.loadAll()
     }
 
     fun addFundHaveBean(fundHaveRecordBean: FundHaveRecordBean) {
@@ -99,11 +100,24 @@ class DbRepo(context: Context) {
     fun addFundPlanBean(fundSearchRecordBean: FundPlanBean) {
         mFundPlanBeanDao.insertOrUpdateTx(fundSearchRecordBean)
     }
-    fun getFundPlanSize(code: String,type: Int,value: Int) {
-        mFundPlanBeanDao.getFundPlanSize(code,type,value)
+
+    fun getFundPlanSize(code: String, type: Int, value: Int):Int {
+        return mFundPlanBeanDao.getFundPlanSize(code, type, value)
     }
 
     fun getFundPlanBeans(code: String): MutableList<FundPlanBean> {
-        return mFundPlanBeanDao.loadFundPlanByCode(code)
+        return if (code.isEmpty()) mFundPlanBeanDao.loadAll() else mFundPlanBeanDao.loadFundPlanByCode(code)
+    }
+
+    //--------------------------------FundPlanRecordBean
+    fun addFundPlanRecordBean(recordBean: FundPlanRecordBean) {
+        mFundPlanRecordBeanDao.insertOrUpdateTx(recordBean)
+    }
+
+    fun loadFundPlanRecordByCode(code: String): MutableList<FundPlanRecordBean> {
+        return mFundPlanRecordBeanDao.loadFundPlanRecordByCode(code)
+    }
+    fun loadAllFundPlanRecord(): MutableList<FundPlanRecordBean> {
+        return mFundPlanRecordBeanDao.loadAllFundPlanRecord()
     }
 }

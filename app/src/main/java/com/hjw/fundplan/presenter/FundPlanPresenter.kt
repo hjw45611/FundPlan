@@ -17,7 +17,8 @@ class FundPlanPresenter : BasePresenter<IFundPlanView>(), IFundPlanPresenter {
     override fun getFundInfo(code: String) {
         GlobalScope.launch {
             mView.context?.let {
-                mView.setFundInfo(DbRepo(it).getFundSearchBean(code))
+
+                mView.setFundInfo(if (code.isNullOrEmpty()) DbRepo(it).getAllFundSearchBeans() else mutableListOf(DbRepo(it).getFundSearchBean(code)))
             }
         }
     }

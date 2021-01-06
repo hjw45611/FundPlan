@@ -9,6 +9,6 @@ import java.text.DecimalFormat
  */
 object StringUtils {
     fun getDoubleString(d: Double): String {
-        return DecimalFormat("#.00").format(d)
+        return DecimalFormat("#0.00").format(d)
     }
 }

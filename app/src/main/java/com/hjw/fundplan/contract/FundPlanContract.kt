@@ -15,7 +15,7 @@ interface IFundPlanPresenter : IContract.IPresenter<IFundPlanView> {
 }
 
 interface IFundPlanView : IContract.IView {
-    fun setFundInfo(fundSearchRecordBean: FundSearchRecordBean)
+    fun setFundInfo(fundSearchRecordBean: MutableList<FundSearchRecordBean>)
     fun setFundPlans(plans:MutableList<FundPlanBean>)
 
 }

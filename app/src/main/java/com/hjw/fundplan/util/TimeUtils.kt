@@ -36,6 +36,21 @@ class TimeUtils {
             val day = instance[Calendar.DAY_OF_WEEK]
             return if (day == Calendar.SUNDAY) 6 else day - 2
         }
+        fun getDayOfWeekByInt(status:Int): String {
+            return "星期"+when(status){
+                0->"一"
+                1->"二"
+                2->"三"
+                3->"四"
+                4->"五"
+                5->"六"
+                6->"日"
+                else->""
+            }
+        }
+        fun getDayOfMonthByInt(status:Int): String {
+            return "${status+1}日"
+        }
 
         private val SDF_THREAD_LOCAL = ThreadLocal<SimpleDateFormat>()
         private val defaultFormat: SimpleDateFormat

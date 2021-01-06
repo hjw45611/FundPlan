@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hjw.fundplan.R
 import com.hjw.fundplan.activity.FundRecordsActivity
 import com.hjw.fundplan.entity.MyFundBean
+import com.hjw.fundplan.util.Const
 import com.hjw.fundplan.util.StringUtils
 
 class FundShowAdapter : RecyclerView.Adapter<FundShowAdapter.ViewHolder>() {
@@ -33,7 +34,7 @@ class FundShowAdapter : RecyclerView.Adapter<FundShowAdapter.ViewHolder>() {
         holder.bindData(mDatas[position])
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, FundRecordsActivity::class.java)
-            intent.putExtra(FundRecordsActivity.CODE, mDatas[position].code)
+            intent.putExtra(Const.CODE, mDatas[position].code)
             holder.itemView.context.startActivity(intent)
         }
     }

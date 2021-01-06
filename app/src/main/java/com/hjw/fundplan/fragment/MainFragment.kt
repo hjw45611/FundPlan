@@ -62,6 +62,9 @@ class MainFragment : BaseFragment<IMainShowPresenter>(), IMainShowView {
         btn_toFund.setOnClickListener {
             callBack?.switchTag(MainActivity.FUNF_TAG)
         }
+        btn_toPlan.setOnClickListener {
+            callBack?.switchTag(MainActivity.PLAN_TAG)
+        }
     }
 
 

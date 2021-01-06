@@ -10,16 +10,23 @@ import com.hjw.fundplan.bean.FundInfoBean
 import com.hjw.fundplan.contract.IFundSearchPresenter
 import com.hjw.fundplan.contract.IFundSearchView
 import com.hjw.fundplan.event.FundAddEvent
+import com.hjw.fundplan.event.FundPlanAddEvent
 import com.hjw.fundplan.ext.removeSpace
 import com.hjw.fundplan.presenter.FundSearchPresenter
 import com.hjw.fundplan.util.AppUtils
+import com.hjw.fundplan.util.Const
 import kotlinx.android.synthetic.main.activity_fund_search.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class FundSearchActivity : BaseActivity<IFundSearchPresenter>(), IFundSearchView {
+    companion object{
+        val TOPLAN ="TOPLAN"
+    }
     private var infoBean: FundInfoBean? = null
+    private var toPlan = false
     override fun initView() {
+        toPlan = intent.getBooleanExtra(TOPLAN,false)
         findViewById<Toolbar>(R.id.id_drawer_layout_toolbar).setTitle(R.string.fund_search)
         et_search.setOnEditorActionListener { v, actionId, event ->
             if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
@@ -38,9 +45,16 @@ class FundSearchActivity : BaseActivity<IFundSearchPresenter>(), IFundSearchView
         et_search.removeSpace()
         et_search.setText("")
         btn_add.setOnClickListener {
-            val intent = Intent(context, FundAddActivity::class.java)
-            intent.putExtra(FundAddActivity.Name, infoBean?.name)
-            intent.putExtra(FundAddActivity.Code, infoBean?.fundcode)
+            var intent: Intent? = null
+            if (toPlan) {
+                intent = Intent(mContext, FundPlanAddActivity::class.java)
+                intent.putExtra(Const.CODE, infoBean?.fundcode)
+            } else {
+                intent = Intent(context, FundAddActivity::class.java)
+                intent.putExtra(FundAddActivity.Name, infoBean?.name)
+                intent.putExtra(FundAddActivity.Code, infoBean?.fundcode)
+            }
+
             startActivity(intent)
         }
     }
@@ -78,10 +92,17 @@ class FundSearchActivity : BaseActivity<IFundSearchPresenter>(), IFundSearchView
     }
 
     /**
-     * 应用退出
+     * 基金记录成功
      */
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    fun onAppExit(e: FundAddEvent?) {
+    fun onFundAddSuccess(e: FundAddEvent?) {
+        finish()
+    }
+    /**
+     * 基金定投添加成功
+     */
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    fun onFundPlanAddSuccess(e: FundPlanAddEvent?) {
         finish()
     }
 

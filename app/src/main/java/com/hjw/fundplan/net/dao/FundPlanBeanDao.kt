@@ -23,8 +23,12 @@ interface FundPlanBeanDao {
 
     @Query("SELECT * FROM FundPlanBean")
     fun loadAllNoMayBe(): MutableList<FundPlanBean>
+
     @Query("SELECT * FROM FundPlanBean where code =:code ORDER BY time DESC")
     fun loadFundPlanByCode(code:String): MutableList<FundPlanBean>
+
+    @Query("SELECT * FROM FundPlanBean ORDER BY time DESC")
+    fun loadAll(): MutableList<FundPlanBean>
 
     @Query("SELECT count(*) FROM FundPlanBean where code =:code AND cycle_type =:type AND cycle_value = :value")
     fun getFundPlanSize(code:String,type: Int,value: Int): Int

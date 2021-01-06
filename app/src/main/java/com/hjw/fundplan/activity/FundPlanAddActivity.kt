@@ -11,22 +11,22 @@ import com.hjw.fundplan.contract.IFundPlanAddPresenter
 import com.hjw.fundplan.contract.IFundPlanAddView
 import com.hjw.fundplan.entity.FundPlanBean
 import com.hjw.fundplan.entity.FundSearchRecordBean
+import com.hjw.fundplan.event.FundAddEvent
+import com.hjw.fundplan.event.FundPlanAddEvent
 import com.hjw.fundplan.net.DbRepo
 import com.hjw.fundplan.presenter.FundPlanAddPresenter
 import com.hjw.fundplan.util.AppUtils
+import com.hjw.fundplan.util.Const
 import com.hjw.fundplan.util.JsonUtils
 import com.hjw.fundplan.util.TimeUtils
 import kotlinx.android.synthetic.main.activity_fund_plan_add.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.toast
 
 
 class FundPlanAddActivity : BaseActivity<IFundPlanAddPresenter>(), IFundPlanAddView {
-
-    companion object {
-        val CODE = "CODE"
-    }
 
     private var code: String? = null
     private var options1Items: ArrayList<String> = ArrayList()
@@ -34,10 +34,12 @@ class FundPlanAddActivity : BaseActivity<IFundPlanAddPresenter>(), IFundPlanAddV
     private var cycleType: Int = 0
     private var cycleValue: Int = 0
     override fun initView() {
-        code = intent.getStringExtra(CODE)
+        code = intent.getStringExtra(Const.CODE)
         findViewById<Toolbar>(R.id.id_drawer_layout_toolbar).title =
             resources.getString(R.string.plan_dateMoney)
-        mPresenter?.getFundInfo(code!!)
+        if (!code.isNullOrEmpty()) {
+            mPresenter?.getFundInfo(code!!)
+        }
         AppUtils.setEditTextHintSize(et_money, "最低定投金额10元", 15)
         ll_right.setOnClickListener {
             mContext?.let {
@@ -53,7 +55,15 @@ class FundPlanAddActivity : BaseActivity<IFundPlanAddPresenter>(), IFundPlanAddV
             }
             GlobalScope.launch {
                 mContext?.let { it1 ->
-                    DbRepo(it1).addFundPlanBean(FundPlanBean(code!!, cycleType, cycleValue))
+                    val fundPlanSize = DbRepo(it1).getFundPlanSize(code!!, cycleType, cycleValue)
+                    if (fundPlanSize > 0){
+                        runOnUiThread {
+                            toast("已有相同的定投计划,请前往修改")
+                        }
+                            return@launch
+                    }
+                    DbRepo(it1).addFundPlanBean(FundPlanBean(code!!, cycleType, cycleValue,money.toDouble()))
+                    EventBus.getDefault().post(FundPlanAddEvent())
                     finish()
                 }
             }

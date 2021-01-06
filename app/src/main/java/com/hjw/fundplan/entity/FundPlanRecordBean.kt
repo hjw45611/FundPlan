@@ -17,12 +17,19 @@ class FundPlanRecordBean {
     var code: String = ""
     var cycle_type: Int = 0
     var cycle_value: Int = 0
+    //定投金额
+    var money: Double =0.0
+    //定投状态
+    var status:Int =0
+    //添加时间
     var time: Long = 0
 
-    constructor(code: String, cycle_type: Int , cycle_value: Int , time: Long = System.currentTimeMillis()) {
+    constructor(code: String, cycle_type: Int , cycle_value: Int ,money: Double =0.0, status:Int =0,time: Long = System.currentTimeMillis()) {
         this.code = code
         this.cycle_type = cycle_type
         this.cycle_value = cycle_value
+        this.money = money
+        this.status = status
         this.time = time
     }
 }

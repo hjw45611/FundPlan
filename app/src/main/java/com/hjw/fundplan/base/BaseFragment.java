@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 
+import org.greenrobot.eventbus.EventBus;
+
 public abstract class BaseFragment<T extends IContract.IPresenter<? extends IContract.IView>> extends Fragment implements IContract.IView {
 
     protected T mPresenter;
@@ -23,6 +25,9 @@ public abstract class BaseFragment<T extends IContract.IPresenter<? extends ICon
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (isRegisterEventBus()) {
+            EventBus.getDefault().register(this);
+        }
         mContext = this.getActivity().getBaseContext();
         initPresenter();
         if (mPresenter != null) {
@@ -31,6 +36,9 @@ public abstract class BaseFragment<T extends IContract.IPresenter<? extends ICon
     }
 
     protected abstract void initPresenter();
+    protected boolean isRegisterEventBus(){
+        return false;
+    }
 
     @Override
     public Context getContext() {
@@ -72,6 +80,9 @@ public abstract class BaseFragment<T extends IContract.IPresenter<? extends ICon
         super.onDestroy();
         if (mPresenter != null) {
             getLifecycle().removeObserver(mPresenter);
+        }
+        if (isRegisterEventBus()) {
+            EventBus.getDefault().unregister(this);
         }
     }
 

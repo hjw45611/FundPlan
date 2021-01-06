@@ -1,23 +1,20 @@
 package com.hjw.fundplan.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hjw.fundplan.R
-import com.hjw.fundplan.activity.FundRecordsActivity
-import com.hjw.fundplan.entity.FundHaveRecordBean
-import com.hjw.fundplan.entity.FundPlanBean
+import com.hjw.fundplan.bean.PlanRecordShowBean
 import com.hjw.fundplan.util.StringUtils
 import com.hjw.fundplan.util.TimeUtils
 
 class FundPlanAdapter : RecyclerView.Adapter<FundPlanAdapter.ViewHolder>() {
 
-    private val mDatas = mutableListOf<FundPlanBean>()
+    private val mDatas = mutableListOf<PlanRecordShowBean>()
 
-    fun updateData(datas: List<FundPlanBean>) {
+    fun updateData(datas: List<PlanRecordShowBean>) {
         mDatas.clear()
         mDatas.addAll(datas)
         notifyDataSetChanged()
@@ -41,10 +38,20 @@ class FundPlanAdapter : RecyclerView.Adapter<FundPlanAdapter.ViewHolder>() {
         val txtNums = itemView.findViewById<TextView>(R.id.tv_input_num)
         val txtName = itemView.findViewById<TextView>(R.id.tv_fundName)
         val txtInfo = itemView.findViewById<TextView>(R.id.tv_info)
-        fun bindData(appInfoBean: FundPlanBean) {
-//            txtMoney.text = StringUtils.getDoubleString(appInfoBean.price)
-//            txtNums.text = StringUtils.getDoubleString(appInfoBean.num)
-//            txtTime.text = TimeUtils.millis2String(appInfoBean.time)?.replace(" ","\n") ?: ""
+        fun bindData(appInfoBean: PlanRecordShowBean) {
+            txtName.text = appInfoBean.name
+            txtMoney.text = StringUtils.getDoubleString(appInfoBean.money)
+            txtNums.text = appInfoBean.nums.toString()
+            txtInfo.text = when (appInfoBean.cycle_type) {
+                0 -> "每周"
+                1 -> "每月"
+                else -> ""
+            } + when (appInfoBean.cycle_type) {
+                0 -> TimeUtils.getDayOfWeekByInt(appInfoBean.cycle_value)
+                1 -> TimeUtils.getDayOfMonthByInt(appInfoBean.cycle_value)
+                else -> ""
+            } + "投入${appInfoBean.planMoney}元"
+
         }
     }
 }
