@@ -154,9 +154,11 @@ class FundPlanFragment : BaseFragment<IFundPlanPresenter>(), IFundPlanView {
                     val money = loadFundPlanRecordByCode[it].money
                     val cycle_type = loadFundPlanRecordByCode[it].cycle_type
                     val cycle_value = loadFundPlanRecordByCode[it].cycle_value
+                    val code1 = loadFundPlanRecordByCode[it].code
                     if (planRecordShowBean == null) {
                         planRecordShowBean = PlanRecordShowBean(
-                            getPlanName(loadFundPlanRecordByCode[it].code),
+                            code1,
+                            getPlanName(code1),
                             money,
                             if (money.toInt() == 0) 0 else 1,
                             cycle_type,
@@ -164,13 +166,23 @@ class FundPlanFragment : BaseFragment<IFundPlanPresenter>(), IFundPlanView {
                             getPlanBean(cycle_type, cycle_value).money
                         )
                     } else {
-                        if (cycle_type == planRecordShowBean!!.cycle_type && cycle_value == planRecordShowBean!!.cycle_value) {
+                        //不一定是连续的，也有可能是早已加入过的
+                        if (code1 == planRecordShowBean!!.code && cycle_type == planRecordShowBean!!.cycle_type &&
+                            cycle_value == planRecordShowBean!!.cycle_value) {
                             planRecordShowBean!!.money += money
-                            planRecordShowBean!!.nums += 1
+                            planRecordShowBean!!.nums += if (money.toInt() == 0) 0 else 1
+                            return@forEach
                         } else {
+                            val hadInputIndex = getHadInputIndex(code1, cycle_type, cycle_value)
+                            if (hadInputIndex>-1){
+                                planShowList[hadInputIndex].money += money
+                                planShowList[hadInputIndex].nums += if (money.toInt() == 0) 0 else 1
+                                return@forEach
+                            }
                             planShowList.add(planRecordShowBean!!)
                             planRecordShowBean = PlanRecordShowBean(
-                                getPlanName(loadFundPlanRecordByCode[it].code),
+                                code1,
+                                getPlanName(code1),
                                 money,
                                 if (money.toInt() == 0) 0 else 1,
                                 cycle_type,
@@ -195,6 +207,12 @@ class FundPlanFragment : BaseFragment<IFundPlanPresenter>(), IFundPlanView {
         }
     }
 
+    private fun getHadInputIndex(code: String,type: Int,value: Int):Int {
+        return planShowList.forEachIndexed { index, bean ->
+            if(bean.code == code && bean.cycle_type == type && bean.cycle_value == value){
+            index
+        }}?.let { -1 }
+    }
     private fun getAllRecords(): MutableList<FundPlanRecordBean>? {
         var loadFundPlanRecordByCode =
             mContext?.let {

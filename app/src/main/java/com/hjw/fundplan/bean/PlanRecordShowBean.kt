@@ -6,6 +6,7 @@ package com.hjw.fundplan.bean
  * @Describe
  */
 data class PlanRecordShowBean(
+    var code: String,
     var name: String,
     var money: Double,
     var nums: Int,
